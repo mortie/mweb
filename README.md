@@ -43,11 +43,6 @@ If `options.session` is true, this contains a user session object from
 Parse the request's form data. Wrapper around
 [Formidable](https://github.com/felixge/node-formidable).
 
-### app.static(path)
-
-Serve the static files in a directory. If `options.dev` is true, the browser
-will automatically reload once any file in the directory changes.
-
 #### req.getBody(function(err, str))
 
 Get the request body as a string.
@@ -55,6 +50,11 @@ Get the request body as a string.
 #### req.getJSON(function(err, object))
 
 Get the request body, parsed as a JSON object.
+
+### app.static(path)
+
+Serve the static files in a directory. If `options.dev` is true, the browser
+will automatically reload once any file in the directory changes.
 
 ### app.emit(name, data)
 
