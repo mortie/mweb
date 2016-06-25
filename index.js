@@ -46,6 +46,7 @@ module.exports = function(options) {
 	options.dev = options.dev || false;
 	options.session = options.session || false;
 	options.webevents = options.webevents || false;
+	options.host = options.host || (options.dev ? "127.0.0.1" : "0.0.0.0");
 
 	let app = express();
 	let server = http.createServer(app);
@@ -117,8 +118,8 @@ module.exports = function(options) {
 			options.dev);
 	}
 
-	server.listen(options.port);
-	log.info("Server listening to "+options.port);
+	server.listen(options.port, options.host);
+	log.info("Server listening to "+options.host+":"+options.port);
 
 	self.info = log.info;
 	self.notice = log.notice;

@@ -20,6 +20,8 @@ The client should contain `<script src='/mweb.js'></script>` in the
 The options object may contain the following values:
 
 * **port**: Number. The http server's port. Default: 8080
+* **host**: String. The http server's host. Default: "127.0.0.1" when dev mode,
+  "0.0.0.0" when not
 * **dev**: Boolean. Devleoper mode on or off. Default: false
 * **session**: Boolean, or options object. Whether users should have a permanent
   session. Default: false
@@ -65,4 +67,5 @@ listen to the event by doing `events.on(name, callback)`. Wrapper around
 ### app.info(str), app.notice(str), app.warn(str), app.error(str), app.die(str)
 
 Log a message to the console and a log file. Wrapper around the methods in
-[mlogger](https://www.npmjs.com/package/mlogger).
+[mlogger](https://www.npmjs.com/package/mlogger). If they're given an error
+object instead of a string, a stack trace will be included.
