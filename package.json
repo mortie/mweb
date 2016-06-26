@@ -13,7 +13,6 @@
     "express-session": "^1.13.0",
     "formidable": "^1.0.17",
     "mlogger": "^1.1.2",
-    "reload": "^1.0.0",
-    "webevents": "^1.1.2"
+    "reload": "^1.0.0"
   }
 }

@@ -8,8 +8,7 @@ static files (in dev mode).
 
 The server should look something like this:
 
-	var mweb = require(mweb);
-
+	var mweb = require("mweb");
 	var app = mweb(options);
 
 The client should contain `<script src='/mweb.js'></script>` in the
@@ -22,11 +21,12 @@ The options object may contain the following values:
 * **port**: Number. The http server's port. Default: 8080
 * **host**: String. The http server's host. Default: "127.0.0.1" when dev mode,
   "0.0.0.0" when not
-* **dev**: Boolean. Devleoper mode on or off. Default: false
+* **dev**: Boolean. Devleoper mode on or off. Default: true if the DEV env
+  variable is 1, false othrewise
 * **session**: Boolean, or options object. Whether users should have a permanent
   session. Default: false
-* **webevents**: Boolean. Whether the server should be able to send events to
-  the client.
+* **client_utils**: Boolean. Whether utility functions should be included in
+  the client or not. Default: true
 
 ## Methods
 
@@ -57,12 +57,6 @@ Get the request body, parsed as a JSON object.
 
 Serve the static files in a directory. If `options.dev` is true, the browser
 will automatically reload once any file in the directory changes.
-
-### app.emit(name, data)
-
-If `options.webevents` is true, send an event to the client. The client can
-listen to the event by doing `events.on(name, callback)`. Wrapper around
-[webevents](https://www.npmjs.com/package/webevents).
 
 ### app.info(str), app.notice(str), app.warn(str), app.error(str), app.die(str)
 

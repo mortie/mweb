@@ -31,22 +31,30 @@ function addScriptPart(name, str, dev) {
 			"/*\n"+
 			" * End of "+name+"\n"+
 			" */\n\n";
-
-		str = str.trim();
 	}
+	str = str.trim();
 
 	clientScript = clientScript + start + str + end;
+}
+
+// Defaulut values
+function defval(val, def) {
+	return val === undefined ? def : val;
 }
 
 module.exports = function(options) {
 	let self = {};
 
-	options = options || {};
-	options.port = options.port || 8080;
-	options.dev = options.dev || false;
-	options.session = options.session || false;
-	options.webevents = options.webevents || false;
-	options.host = options.host || (options.dev ? "127.0.0.1" : "0.0.0.0");
+	options = defval(options, {});
+
+	options.port = defval(options.port, 8080);
+	options.dev = defval(options.dev, process.env.DEV === "1");
+	options.host = defval(options.host, (options.dev ? "127.0.0.1" : "0.0.0.0"));
+	options.session = defval(options.session, false);
+	options.client_utils = defval(options.client_utils, true);
+
+	if (options.dev)
+		log.info("Dev mode active.");
 
 	let app = express();
 	let server = http.createServer(app);
@@ -71,29 +79,6 @@ module.exports = function(options) {
 		app.use(require("express-session")(opts));
 	}
 
-	// Events (self.emit, events)
-	if (options.webevents) {
-		let events = require("webevents")();
-		self.emit = events.emit;
-		app.post("/webevents/*", events.handle);
-
-		let wscript;
-		try {
-			wscript = fs.readFileSync(
-				"node_modules/webevents/client.js",
-				"utf8");
-		} catch (err) {
-			wscript = fs.readFileSync(
-				__dirname+"/node_modules/wenbevents/client.js",
-				"utf8");
-		}
-
-		addScriptPart("WebEvents Library", wscript, options.dev);
-		addScriptPart("Events",
-			fs.readFileSync(__dirname+"/client-events.js", "utf8"),
-			options.dev);
-	}
-
 	// Handle get and post requests
 	self.get = (req, res) => endpoint(app.get.bind(app), req, res);
 	self.post = (req, res) => endpoint(app.post.bind(app), req, res);
@@ -113,8 +98,15 @@ module.exports = function(options) {
 
 	// Handle reloads client side
 	if (options.dev) {
-		addScriptPart("Dev",
-			fs.readFileSync(__dirname+"/client-dev.js", "utf8"),
+		addScriptPart("Reload",
+			fs.readFileSync(__dirname+"/client-reload.js", "utf8"),
+			options.dev);
+	}
+
+	// Client side utilty functions
+	if (options.client_utils) {
+		addScriptPart("Utils",
+			fs.readFileSync(__dirname+"/client-utils.js", "utf8"),
 			options.dev);
 	}
 
