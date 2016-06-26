@@ -1,6 +1,7 @@
 function request(method, path, payload, cb) {
 	var xhr = new XMLHttpRequest();
 	xhr.open(method, path);
+	xhr.overrideMimeType("text/plain; charset=x-user-defined");
 	xhr.send(payload);
 
 	xhr.addEventListener("load", function() {
@@ -24,6 +25,7 @@ function post(path, payload, cb) {
 	return request("POST", path, payload, cb);
 }
 
+window.$$ = document.querySelector.bind(document);
 window.request = request;
 window.get = get;
 window.post = post;
