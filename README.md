@@ -1,4 +1,4 @@
-# mweb
+# webstuff
 
 Express-based web server, designed to eliminate boilerplate for common tasks,
 and provide some quality of life improvements like automatic reloading of
@@ -8,10 +8,10 @@ static files (in dev mode).
 
 The server should look something like this:
 
-	var mweb = require("mweb");
-	var app = mweb(options);
+	var web = require("webstuff");
+	var app = web(options);
 
-The client should contain `<script src='/mweb.js'></script>` in the
+The client should contain `<script src='/webstuff.js'></script>` in the
 `<body>`.
 
 ## Options

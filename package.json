@@ -1,5 +1,5 @@
 {
-  "name": "mweb",
+  "name": "webstuff",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,5 +14,9 @@
     "formidable": "^1.0.17",
     "mlogger": "^1.1.2",
     "reload": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mortie/webstuff"
   }
 }

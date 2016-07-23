@@ -62,7 +62,7 @@ module.exports = function(options) {
 	let reloader;
 	if (options.dev) reloader = require("reload")(server, app);
 
-	app.get("/mweb.js", (req, res) => res.end(clientScript));
+	app.get("/webstuff.js", (req, res) => res.end(clientScript));
 
 	// Session (req.session)
 	if (options.session) {
