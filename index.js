@@ -39,7 +39,13 @@ function addScriptPart(name, str, dev) {
 
 // Defaulut values
 function defval(val, def) {
-	return val === undefined ? def : val;
+	if (
+			val === undefined ||
+			val === null ||
+			(typeof val === "number" && isNaN(val)))
+		return def;
+	else
+		return val;
 }
 
 module.exports = function(options) {
@@ -47,7 +53,7 @@ module.exports = function(options) {
 
 	options = defval(options, {});
 
-	options.port = defval(options.port, 8080);
+	options.port = defval(options.port, defval(parseInt(process.env.PORT), 8080));
 	options.dev = defval(options.dev, process.env.DEV === "1");
 	options.host = defval(options.host, (options.dev ? "127.0.0.1" : "0.0.0.0"));
 	options.session = defval(options.session, false);

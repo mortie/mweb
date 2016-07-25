@@ -18,7 +18,8 @@ The client should contain `<script src='/webstuff.js'></script>` in the
 
 The options object may contain the following values:
 
-* **port**: Number. The http server's port. Default: 8080
+* **port**: Number. The http server's port. Default: the value of the PORT env
+  variable if it exists, 8080 otherwise
 * **host**: String. The http server's host. Default: "127.0.0.1" when dev mode,
   "0.0.0.0" when not
 * **dev**: Boolean. Devleoper mode on or off. Default: true if the DEV env
