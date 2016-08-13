@@ -96,7 +96,12 @@ module.exports = function(options) {
 		if (options.dev) {
 			let cb = utils.debounce(function() {
 				log.info("Reloading");
-				reloader.reload();
+				try {
+					reloader.reload();
+				} catch (err) {
+					console.log("Reloading error:");
+					console.trace(err);
+				}
 			});
 			utils.watchRecursive(path, cb);
 		}
