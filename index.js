@@ -55,7 +55,7 @@ module.exports = function(options) {
 
 	options.port = defval(options.port, defval(parseInt(process.env.PORT), 8080));
 	options.dev = defval(options.dev, process.env.DEV === "1");
-	options.host = defval(options.host, (options.dev ? "127.0.0.1" : "0.0.0.0"));
+	options.host = defval(options.host, (options.dev ? "0.0.0.0" : "127.0.0.1"));
 	options.session = defval(options.session, false);
 	options.client_utils = defval(options.client_utils, true);
 
