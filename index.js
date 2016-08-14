@@ -85,6 +85,9 @@ module.exports = function(options) {
 		app.use(require("express-session")(opts));
 	}
 
+	// Reference to the native express 'app'
+	self.express = app;
+
 	// Handle get and post requests
 	self.get = (req, res) => endpoint(app.get.bind(app), req, res);
 	self.post = (req, res) => endpoint(app.post.bind(app), req, res);

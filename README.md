@@ -31,6 +31,9 @@ The options object may contain the following values:
 
 ## Methods
 
+In addition to these methods, `app.express` is a reference to the native
+express `app` object, which has its own properties and methods.
+
 ### app.get(path, function(req, res)), app.post(path, function(req, res))
 
 Listen to a path, coming from a get or post request. Works like express'
