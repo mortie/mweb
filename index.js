@@ -124,6 +124,12 @@ module.exports = function(options) {
 			options.dev);
 	}
 
+	// Get the address (e.g http://localhost:8080)
+	self.getAddress = function() {
+		return "http://"+options.host+":"+options.port;
+	}
+
+	// Listen, and say the server is running
 	server.listen(options.port, options.host);
 	log.info("Server listening to "+options.host+":"+options.port);
 
