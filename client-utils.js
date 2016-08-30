@@ -5,13 +5,16 @@ function request(method, path, payload, cb) {
 	xhr.send(payload);
 
 	xhr.addEventListener("load", function() {
-		cb(null, xhr.responseText);
+		if (cb)
+			cb(null, xhr.responseText);
 	});
 	xhr.addEventListener("abort", function() {
-		cb(new Error("Aborted"));
+		if (cb)
+			cb(new Error("Aborted"));
 	});
 	xhr.addEventListener("error", function() {
-		cb(new Error("Error"));
+		if (cb)
+			cb(new Error("Error"));
 	});
 
 	return xhr;

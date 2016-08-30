@@ -58,6 +58,7 @@ module.exports = function(options) {
 	options.host = defval(options.host, (options.dev ? "0.0.0.0" : "127.0.0.1"));
 	options.session = defval(options.session, false);
 	options.client_utils = defval(options.client_utils, true);
+	options.login = defval(options.login, false);
 
 	if (options.dev)
 		log.info("Dev mode active.");
@@ -122,6 +123,59 @@ module.exports = function(options) {
 		addScriptPart("Utils",
 			fs.readFileSync(__dirname+"/client-utils.js", "utf8"),
 			options.dev);
+	}
+
+	// Login system
+	if (options.login) {
+		if (!options.client_utils)
+			throw "options.client_utils is required for options.login.";
+
+		addScriptPart("Login",
+			fs.readFileSync(__dirname+"/client-login.js", "utf8"),
+			options.login);
+
+		self.tokens = {};
+
+		app.post("/webstuff-login", (req, res) => {
+			utils.getJSON(req, (err, creds) => {
+				if (err)
+					return res.json({ error: err });
+
+				// err should be an error message if invalid login, or null
+				// otherwise 
+				self.onLogin(creds, req, err => {
+					if (err)
+						return res.json({ error: err });
+
+					if (options.session)
+						req.session.loggedIn = true;
+
+					var token = crypto.randomBytes(32).toString("hex");
+					self.tokens[token] = true;
+				});
+			});
+		});
+
+		app.post("/webstuff-login-verify", (req, res) => {
+			utils.getJSON(req, (err, obj) => {
+
+				// Successfully verified, set loggedIn to true
+				if (obj.token && self.tokens[obj.token]) {
+					if (options.session)
+						req.session.loggedIn = true;
+
+					self.onVerified(req);
+					return res.json({ success: true });
+
+				// Not verified, loggedIn is false
+				} else {
+					if (options.session)
+						req.session.loggedIn = false;
+
+					return res.json({ success: false });
+				}
+			});
+		});
 	}
 
 	// Get the address (e.g http://localhost:8080)
