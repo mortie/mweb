@@ -29,11 +29,14 @@ The options object may contain the following values:
 * **client_utils**: Boolean. Whether utility functions should be included in
   the client or not. Default: true
 * **login**: Boolean. Login system on or off. Requires `client_utils`. Default: false.
+* **reload**: Boolean. Whether to reload automatically on file changes or not.
+  Default: true if options.dev is true, false otherwise
 
 ## Methods
 
 In addition to these methods, `app.express` is a reference to the native
-express `app` object, which has its own properties and methods.
+express `app` object, which has its own properties and methods. `app.server` is
+a reference to the HTTP server.
 
 ### app.get(path, function(req, res)), app.post(path, function(req, res))
 
@@ -64,7 +67,7 @@ Get the request body, parsed as a JSON object.
 
 ### app.static(path)
 
-Serve the static files in a directory. If `options.dev` is true, the browser
+Serve the static files in a directory. If `options.reload` is true, the browser
 will automatically reload once any file in the directory changes.
 
 ### app.info(str), app.notice(str), app.warn(str), app.error(str), app.die(str)

@@ -59,6 +59,7 @@ module.exports = function(options) {
 	options.session = defval(options.session, false);
 	options.client_utils = defval(options.client_utils, true);
 	options.login = defval(options.login, false);
+	options.reload = defval(options.reload, options.dev);
 
 	if (options.dev)
 		log.info("Dev mode active.");
@@ -67,7 +68,7 @@ module.exports = function(options) {
 	let server = http.createServer(app);
 
 	let reloader;
-	if (options.dev) reloader = require("reload")(server, app);
+	if (options.reload) reloader = require("reload")(server, app);
 
 	app.get("/webstuff.js", (req, res) => res.end(clientScript));
 
@@ -88,6 +89,7 @@ module.exports = function(options) {
 
 	// Reference to the native express 'app'
 	self.express = app;
+	// And reference to the HTTP server as 'server'
 
 	// Handle get and post requests
 	self.get = (req, res) => endpoint(app.get.bind(app), req, res);
@@ -97,7 +99,7 @@ module.exports = function(options) {
 	self.static = function(path) {
 		app.use(express.static(path));
 
-		if (options.dev) {
+		if (options.reload) {
 			let cb = utils.debounce(function() {
 				log.info("Reloading");
 				try {
@@ -112,7 +114,7 @@ module.exports = function(options) {
 	}
 
 	// Handle reloads client side
-	if (options.dev) {
+	if (options.reload) {
 		addScriptPart("Reload",
 			fs.readFileSync(__dirname+"/client-reload.js", "utf8"),
 			options.dev);
