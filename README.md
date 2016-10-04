@@ -33,7 +33,8 @@ The options object may contain the following values:
 ## Methods
 
 In addition to these methods, `app.express` is a reference to the native
-express `app` object, which has its own properties and methods.
+express `app` object, which has its own properties and methods. `app.server` is
+a reference to the HTTP server.
 
 ### app.get(path, function(req, res)), app.post(path, function(req, res))
 
