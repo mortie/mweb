@@ -90,6 +90,7 @@ module.exports = function(options) {
 	// Reference to the native express 'app'
 	self.express = app;
 	// And reference to the HTTP server as 'server'
+	self.server = server;
 
 	// Handle get and post requests
 	self.get = (req, res) => endpoint(app.get.bind(app), req, res);
